@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,8 @@
             --correct: #10b981;
             --incorrect: #ef4444;
             --border: #475569;
-            --favorite: #f59e0b; /* 新增：收藏按钮颜色 */
+            --favorite: #f59e0b;
+            /* 新增：收藏按钮颜色 */
             --favorite-hover: #d97706;
         }
 
@@ -62,7 +64,8 @@
         /* 主界面样式 */
         .main-screen,
         .quiz-screen,
-        .favorites-screen { /* 新增：收藏页面样式 */
+        .favorites-screen {
+            /* 新增：收藏页面样式 */
             background-color: var(--bg-secondary);
             border-radius: 12px;
             padding: 30px;
@@ -73,6 +76,7 @@
         .chapter-selection {
             margin-bottom: 30px;
         }
+
         .chapter-selection h2 {
             margin-bottom: 20px;
             font-size: 1.5rem;
@@ -129,7 +133,8 @@
 
         .selected-chapters h3 {
             font-size: 1.1rem;
-            margin-bottom: 10px; /* 修正: 原为 `margin-bottom: 5px;` */
+            margin-bottom: 10px;
+            /* 修正: 原为 `margin-bottom: 5px;` */
             color: var(--accent);
         }
 
@@ -141,8 +146,10 @@
 
         .selected-chapter-tag {
             background-color: var(--accent);
-            padding: 5px 12px; /* 修正: 原为 `padding: 5px 10px;` */
-            border-radius: 20px; /* 修正: 原为 `padding: 5px 10px; border-radius: 20px;` */
+            padding: 5px 12px;
+            /* 修正: 原为 `padding: 5px 10px;` */
+            border-radius: 20px;
+            /* 修正: 原为 `padding: 5px 10px; border-radius: 20px;` */
             font-size: 0.9rem;
             display: flex;
             align-items: center;
@@ -184,7 +191,7 @@
             font-weight: bold;
             width: 160px;
         }
-        
+
         /* 新增：按钮容器，用于并排显示开始和收藏按钮 */
         .button-container {
             display: flex;
@@ -203,12 +210,12 @@
         .start-btn:active {
             transform: translateY(0);
         }
-        
+
         /* 新增：查看收藏按钮样式 */
         .favorites-btn {
             background-color: var(--favorite);
             color: white;
-            border: none; 
+            border: none;
             padding: 15px 20px;
             font-size: 1.1rem;
             border-radius: 8px;
@@ -260,8 +267,9 @@
             background-color: #2c3a51;
         }
 
-        .quiz-header { /* 修正: 原为 `/* 刷题界面header */ */
-            display: flex;
+        .quiz-header {
+            /* 修正: 原为 `/* 刷题界面header */
+            */ display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
@@ -439,7 +447,8 @@
 
             .main-screen,
             .quiz-screen,
-            .favorites-screen { /* 新增 */
+            .favorites-screen {
+                /* 新增 */
                 padding: 20px;
             }
 
@@ -471,13 +480,14 @@
 
 <body>
     <div class="container">
-        <header>
-            <h1>刷刷系统</h1>
-            <p class="subtitle">刷刷系统 - 夜间护眼模式</p>
-        </header>
+
 
         <!-- 主界面 -->
         <div class="main-screen" id="mainScreen">
+            <header>
+                <h1>刷刷系统</h1>
+                <p class="subtitle">刷刷系统 - 夜间护眼模式</p>
+            </header>
             <div class="chapter-selection">
                 <h2>请选择要练习的章节（可多选）</h2>
                 <div class="chapter-grid" id="chapterGrid">
@@ -541,7 +551,7 @@
                 <!-- 新增：收藏按钮 -->
                 <button class="next-btn" id="nextBtn">下一题</button>
                 <button class="favorite-btn" id="favoriteBtn">收藏本题</button>
-                
+
             </div>
         </div>
 
@@ -551,7 +561,8 @@
                 <div>
                     <h2>我的收藏</h2>
                     <div class="quiz-progress">
-                        <div>第 <span id="currentFavQuestion">1</span> 题 / 共 <span id="totalFavQuestions">0</span> 题</div>
+                        <div>第 <span id="currentFavQuestion">1</span> 题 / 共 <span id="totalFavQuestions">0</span> 题
+                        </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="favProgressFill"></div>
                         </div>
@@ -606,7 +617,7 @@
         lists.forEach((data, i) => {
             const match = data.id.match(/^N(.+?)-/);
             let zj = match ? match[1] : null;
-            if (zj === null) return; 
+            if (zj === null) return;
             let a = {
                 id: i,
                 text: data.stem,
@@ -946,8 +957,8 @@
 
         // 选择选项 (已修改，支持收藏模式)
         function selectOption(selectedKey, isResuming = false) {
-            const ui = isInFavoritesMode ? 
-                { answerContainer: favAnswerContainer, optionsContainer: favOptionsContainer } : 
+            const ui = isInFavoritesMode ?
+                { answerContainer: favAnswerContainer, optionsContainer: favOptionsContainer } :
                 { answerContainer: answerContainer, optionsContainer: optionsContainer };
 
             if (ui.answerContainer.classList.contains('show') && !isResuming) return;
@@ -1034,7 +1045,7 @@
                 backFromFavoritesBtn.click();
                 return;
             }
-            
+
             clearProgress();
             const correctCount = userAnswers.filter(answer => answer.isCorrect).length;
             const score = userAnswers.length > 0 ? Math.round((correctCount / userAnswers.length) * 100) : 0;
@@ -1113,4 +1124,5 @@
         });
     </script>
 </body>
+
 </html>
