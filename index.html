@@ -449,7 +449,7 @@
             .quiz-screen,
             .favorites-screen {
                 /* 新增 */
-                padding: 20px;
+                padding: 20px; 
             }
 
             .chapter-grid {
@@ -475,6 +475,7 @@
                 font-size: 1rem;
             }
         }
+        
     </style>
 </head>
 
@@ -635,6 +636,7 @@
         // DOM元素
         const mainScreen = document.getElementById('mainScreen');
         const quizScreen = document.getElementById('quizScreen');
+         quizScreen.style.display = 'none';
         const favoritesScreen = document.getElementById('favoritesScreen'); // 新增
         const chapterGrid = document.getElementById('chapterGrid');
         const selectedChaptersList = document.getElementById('selectedChaptersList');
