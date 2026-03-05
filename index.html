@@ -958,33 +958,42 @@
         }
 
         // 选择选项 (已修改，支持收藏模式)
-        function selectOption(selectedKey, isResuming = false) {
-            const ui = isInFavoritesMode ?
-                { answerContainer: favAnswerContainer, optionsContainer: favOptionsContainer } :
-                { answerContainer: answerContainer, optionsContainer: optionsContainer };
+       // 选择选项 (已修改，支持收藏模式 + 错误自动收藏)
+function selectOption(selectedKey, isResuming = false) {
+    const ui = isInFavoritesMode ?
+        { answerContainer: favAnswerContainer, optionsContainer: favOptionsContainer } :
+        { answerContainer: answerContainer, optionsContainer: optionsContainer };
 
-            if (ui.answerContainer.classList.contains('show') && !isResuming) return;
+    if (ui.answerContainer.classList.contains('show') && !isResuming) return;
 
-            ui.optionsContainer.querySelectorAll('.option.selected').forEach(opt => opt.classList.remove('selected'));
-            const selectedOption = ui.optionsContainer.querySelector(`.option[data-option-key="${selectedKey}"]`);
-            selectedOption.classList.add('selected');
+    ui.optionsContainer.querySelectorAll('.option.selected').forEach(opt => opt.classList.remove('selected'));
+    const selectedOption = ui.optionsContainer.querySelector(`.option[data-option-key="${selectedKey}"]`);
+    selectedOption.classList.add('selected');
 
-            const question = currentQuestions[currentQuestionIndex];
-            const isCorrect = selectedKey === question.answer;
+    const question = currentQuestions[currentQuestionIndex];
+    const isCorrect = selectedKey === question.answer;
 
-            if (!isResuming) {
-                userAnswers.push({
-                    questionId: question.id,
-                    selectedOption: selectedKey,
-                    isCorrect: isCorrect
-                });
-                if (!isInFavoritesMode) { // 只有在正常刷题模式下才保存进度
-                    saveProgress();
-                }
-            }
-
-            showAnswer(isCorrect, question);
+    if (!isResuming) {
+        userAnswers.push({
+            questionId: question.id,
+            selectedOption: selectedKey,
+            isCorrect: isCorrect
+        });
+        if (!isInFavoritesMode) { // 只有在正常刷题模式下才保存进度
+            saveProgress();
         }
+
+        // 新增：回答错误时自动收藏本题 (非恢复进度、非收藏模式下)
+        if (!isCorrect && !isInFavoritesMode) {
+            // 先检查是否已收藏，未收藏才执行收藏
+            if (!isQuestionFavorite(question.id)) {
+                toggleFavorite(question.id);
+            }
+        }
+    }
+
+    showAnswer(isCorrect, question);
+}
 
         // 显示答案 (已修改，支持收藏模式)
         function showAnswer(isCorrect, question) {
@@ -1015,6 +1024,7 @@
             } else {
                 ui.answerResult.textContent = "回答错误！";
                 ui.answerResult.style.color = "var(--incorrect)";
+                
             }
 
             const correctText = question.options[question.answer];
