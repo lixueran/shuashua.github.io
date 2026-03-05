@@ -616,8 +616,8 @@
         }
 
         lists.forEach((data, i) => {
-            const match = data.id.match(/^N(.+?)-/);
-            let zj = match ? match[1] : null;
+            const match = data.id.match(/^N(.+?)-/); 
+            let zj = match ? match[1].replace(/O/g, '') : null;
             if (zj === null) return;
             let a = {
                 id: i,
